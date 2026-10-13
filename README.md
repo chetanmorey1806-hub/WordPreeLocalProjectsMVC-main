@@ -6,10 +6,28 @@ theme, editorial content and working forms.
 
 ## Running it
 
+### First-time setup on a new machine
+
+All site content (articles, pages, menus, settings) lives in the database, which
+ships as `cbw_magazine.sql`. Import it once:
+
+```bash
+sudo mysql -e "CREATE DATABASE cbw_magazine CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+  CREATE USER 'cbw_user'@'localhost' IDENTIFIED BY 'cbw_pass_2026';
+  CREATE USER 'cbw_user'@'127.0.0.1' IDENTIFIED BY 'cbw_pass_2026';
+  GRANT ALL ON cbw_magazine.* TO 'cbw_user'@'localhost';
+  GRANT ALL ON cbw_magazine.* TO 'cbw_user'@'127.0.0.1';"
+mysql -h127.0.0.1 -ucbw_user -pcbw_pass_2026 cbw_magazine < cbw_magazine.sql
+```
+
+### Start
+
 ```bash
 ./start.sh            # http://localhost:8080
-./start.sh 9000       # or any other port
 ```
+
+Use port 8080: the site URL stored in the database is `http://localhost:8080`,
+so another port loads without styles and links point back to 8080.
 
 MySQL must be running (`sudo systemctl start mysql`).
 
